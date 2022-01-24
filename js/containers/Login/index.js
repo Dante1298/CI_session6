@@ -5,6 +5,7 @@ import { checkEmail, checkPassword } from "../../common/validation.js";
 import app from "../../index.js";
 import {loginWithEmailPass} from "../../firebase/auth.js";
 import MainScreen from "../../containers/Main/index.js";
+import InfoScreen from "../Info/index.js";
 
 class LoginScreen {
   $email;
@@ -91,7 +92,7 @@ class LoginScreen {
     // this.$btnSubmit.render().innerHTML = `<div class="loader"></div>`
 
   }
-  render() {
+  render(appEle) {
     this.$formLogin.append(
       this.$titleScreen,
       this.$email.render(),

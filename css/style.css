@@ -33,18 +33,24 @@ body {
   line-height: 30px;
   margin-bottom: 20px;
   font-weight: bold;
+  color: #0d6efd;
 }
 
 .form-control {
   height: 60px;
   border-radius: 10px;
+
 }
 .label-input {
   line-height: 60px;
+  
 }
-
 .error {
   color: red;
+}
+.btn{
+  width: 200px;
+ transform: translateX(140%);
 }
 .link {
   text-decoration: none;

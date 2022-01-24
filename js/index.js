@@ -35,7 +35,7 @@ class App {
       screen.render(appEle);
     }
   }
-}
+};
 
 const app = new App();
 export default app;

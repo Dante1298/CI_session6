@@ -1,13 +1,27 @@
+import SidebarComponent from "./components/sidebar.js";
+
 class MainScreen {
-    $container;
-    constructor() {
-      this.$container = document.createElement("div");
-      this.$container.classList.add("main", "d-flex");
-      this.$container.innerText = "MAIN SCREEN";
-    }
-    render(appEle) {
-      appEle.appendChild(this.$container);
-    }
+  $container;
+
+  $paper;
+  $sidebarComponent;
+  $chatComponent;
+  $informationComponent;
+  constructor() {
+    this.$container = document.createElement("div");
+    this.$container.classList.add("main", "d-flex");
+
+    this.$paper = document.createElement("div");
+    this.$paper.classList.add("chat-paper");
+
+    this.$sidebarComponent = new SidebarComponent();
   }
-  
-  export default MainScreen;
+  render(appEle) {
+    appEle.appendChild(this.$container);
+
+    this.$container.append(this.$paper);
+    this.$sidebarComponent.render(this.$paper);
+  }
+}
+
+export default MainScreen;

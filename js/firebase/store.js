@@ -16,9 +16,9 @@ async function createUser(email, password, name, phone, imageUrl) {
     let errorMessage = error.message;
     console.log(errorCode, errorMessage);
     _noti.error(errorCode, errorMessage);
+    throw error;
   }
 }
-
 
 async function getUserByEmail(email) {
   try {
@@ -31,32 +31,89 @@ async function getUserByEmail(email) {
       return null;
     }
 
-    return querySnapshot.docs[0].data();
+    return {
+      id: querySnapshot.docs[0].id,
+      ...querySnapshot.docs[0].data(),
+    };
   } catch (error) {
     let errorCode = error.code;
     let errorMessage = error.message;
     console.log(errorCode, errorMessage);
     _noti.error(errorCode, errorMessage);
+    throw error;
   }
 }
 
-
-async function updateUser(email, name, phone, imageUrl) {
+async function updateUser(uid, email, name, phone, imageUrl) {
   try {
-    const userID = await getUserStoreID(email)
-    await db
-    .collection("users")
-    .doc(userID)
-    .update({
-        name,
-        phone,
-        imageUrl,
+    const response = await db.collection("users").doc(uid).update({
+      email,
+      name,
+      phone,
+      imageUrl,
     });
-} catch (error) {
-let errorCode = error.code;
-let errorMessage = error.message;
-console.log(errorCode, errorMessage);
-_noti.error(errorCode, errorMessage);
+    console.log(response);
+  } catch (error) {
+    let errorCode = error.code;
+    let errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+    throw error;
   }
 }
-export { createUser, getUserByEmail, updateUser };
+
+async function createConverstaion(name, imageUrl, users, email) {
+  try {
+    const response = await db.collection("conversations").add({
+      name,
+      imageUrl,
+      users,
+      creator: email,
+      updatedAt: new Date().getTime(),
+    });
+    console.log(response);
+  } catch (error) {
+    let errorCode = error.code;
+    let errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+    throw error;
+  }
+}
+
+async function updateConversation(id, name, imageUrl, users, email) {
+  try {
+    const response = await db.collection("conversations").doc(id).update({
+      name,
+      imageUrl,
+      users,
+      creator: email,
+      updatedAt: new Date().getTime(),
+    });
+    console.log(response);
+  } catch (error) {
+    let errorCode = error.code;
+    let errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+    throw error;
+  }
+}
+
+async function deleteConversation(id) {
+  try {
+    const response = await db.collection("conversations").doc(id).delete();
+    console.log(response);
+  } catch (error) {
+    let errorCode = error.code;
+    let errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+    throw error;
+  }
+}
+
+export {
+  createUser,
+  getUserByEmail,
+  updateUser,
+  createConverstaion,
+  updateConversation,
+  deleteConversation,
+};
